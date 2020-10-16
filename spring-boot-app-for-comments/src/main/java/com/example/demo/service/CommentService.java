@@ -13,5 +13,7 @@ public interface CommentService {
 
 	 Optional<CommentTable>  getComment(Long id);
 
+	void saveChildComments(CommentTable commentTable, long id);
+
 
 }

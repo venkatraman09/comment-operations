@@ -12,46 +12,36 @@ import com.example.demo.model.CommentTable;
 
 @Component
 public class CommentServiceImpl implements CommentService {
-	
 	@Autowired
 	private CommentRepository commentRepository;
 
-	/**
-	 *  getAllComments is used to get all the comments from the database
-	 * @return
-	 */
 	@Override
 	public List<CommentTable> getAllComments() {
 		List<CommentTable> commentList = new ArrayList<>();
 		commentList= commentRepository.findAll();
 		return commentList;
-		
 	}
 
-	/**
-	 * saveComments is used to save comment into database
-	 * @param commentTable
-	 */
 	@Override
 	public void saveComments(CommentTable commentTable) {
+		commentRepository.save(commentTable);
 		
-		CommentTable table =new  CommentTable();
-		table.setId(commentTable.getId());
-		table.setComments(commentTable.getComments());
-		table.setParentComment(commentTable.getParentComment());
-		commentRepository.save(table);
 	}
 
-	/**
-	 * getComment method is used to get particular comment from the database.
-	 * @param id
-	 * @return Optional<CommentTable>
-	 */
 	@Override
 	public Optional<CommentTable> getComment(Long id) {
-		
 		return commentRepository.findById(id);
-		
 	}
 
-}
+	@Override
+	public void saveChildComments(CommentTable commentTable, long id) {
+		CommentTable comment = new CommentTable();
+		CommentTable ct = new CommentTable();
+		Optional<CommentTable> table = commentRepository.findById(id);
+		comment = table.get();
+		ct.setId(comment.getId());
+		ct.setComments(comment.getComments());
+		commentTable.setParentComment(ct);
+		commentRepository.save(commentTable);
+		
+	}}

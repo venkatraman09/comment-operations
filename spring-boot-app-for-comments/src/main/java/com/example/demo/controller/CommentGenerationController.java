@@ -35,14 +35,15 @@ public class CommentGenerationController {
 	}
 	
 	/**
-	 * saveComments is used to save comment into database
+	 * saveChildComments method is used o save child comments with parent
 	 * @param commentTable
+	 * @param id
 	 */
-	@RequestMapping(value = "/saveComments",method = RequestMethod.POST)
-	public void saveComments(@RequestBody CommentTable commentTable) {
-		commentService.saveComments(commentTable);
+	@RequestMapping(value = "/saveChildComments/{id}",method = RequestMethod.POST)
+	public void saveChildComments(@RequestBody CommentTable commentTable,@PathVariable long id) {
+		commentService.saveChildComments(commentTable,id);
 	}
-
+	
 	/**
 	 * getComment method is used to get particular comment from the database.
 	 * @param id
@@ -52,5 +53,16 @@ public class CommentGenerationController {
 	public Optional<CommentTable> getComments(@PathVariable long id){
 		return commentService.getComment(id);
 	}
+	
+	/**
+	 * saveComments is used to save comment into database
+	 * @param commentTable
+	 */
+	@RequestMapping(value = "/saveComments",method = RequestMethod.POST)
+	public void saveComments(@RequestBody CommentTable commentTable) {
+		commentService.saveComments(commentTable);
+	}
+	
+	
 
 }
